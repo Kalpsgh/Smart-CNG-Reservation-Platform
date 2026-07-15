@@ -1,0 +1,101 @@
+/* Main Scanner Container */
+#reader {
+  width: 100% !important;
+  border: none !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  background: #0f172a !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Camera Preview */
+#reader video {
+  border-radius: 12px;
+}
+
+/* Remove default border */
+#reader__scan_region {
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Remove QR placeholder image */
+#reader__scan_region img {
+  display: none !important;
+}
+
+/* Dashboard */
+#reader__dashboard {
+  background: #0f172a !important;
+  color: white !important;
+  border-top: 1px solid #334155;
+  padding: 18px !important;
+}
+
+/* Hide unnecessary elements */
+#reader__status_span,
+#reader__dashboard_section_csrbtn,
+#reader__dashboard_section_swapcamicon,
+#reader__dashboard_section_fileinput {
+  display: none !important;
+}
+
+/* Dashboard Layout */
+#reader__dashboard_section {
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Camera Dropdown */
+#reader select {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  border: 1px solid #334155 !important;
+  background: #1e293b !important;
+  color: white !important;
+  font-size: 14px;
+  outline: none;
+}
+
+/* Buttons */
+#reader button {
+  width: 100% !important;
+  padding: 11px 16px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+/* Start Button */
+#reader button {
+  background: #16a34a !important;
+  color: white !important;
+}
+
+#reader button:hover {
+  background: #15803d !important;
+}
+
+/* Stop Button */
+#reader button:last-child {
+  background: #dc2626 !important;
+}
+
+#reader button:last-child:hover {
+  background: #b91c1c !important;
+}
+
+/* Hide "Scan an Image" link */
+#reader a {
+  display: none !important;
+}
+
+/* Status Text */
+#reader__status_span {
+  display: none !important;
+}

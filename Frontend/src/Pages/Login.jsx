@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import api from "../api/api";
+import toast from "react-hot-toast";
+
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -21,28 +23,28 @@ const handleLogin = async (e) => {
   e.preventDefault();
 
   try {
-
     const res = await api.post("/auth/login", loginData);
-
+    
     localStorage.setItem("token", res.data.token);
-
-    localStorage.setItem(
-      "user",
-      JSON.stringify(res.data.user)
-    );
-
-    navigate("/");
-
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    
+    const role = res.data.user.role;
+    console.log(role);
+    
+    if (role === "admin") {
+      navigate("/admin-dashboard", { replace: true });
+    } else if (role === "owner") {
+        navigate("/ownerDashboard", { replace: true });
+    } else {
+      navigate("/", { replace: true }); 
+    }
+    toast.success("Login Successful 🎉");
+   
+    
   } catch (err) {
-
-    alert(
-      err.response?.data?.message ||
-      err.message
-    );
+    toast.error(err.response?.data?.message || "Login failed");
 
   }
-
-
 };
   return (
     <div className="min-h-screen flex bg-green-50 dark:bg-slate-950 items-center justify-center p-4 transition-colors">
@@ -67,6 +69,7 @@ const handleLogin = async (e) => {
                     onChange={handleChange}
                     placeholder="Enter email"
                   className="bg-transparent w-full py-2.5 px-3 outline-none text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
+                  required
                 />
               </div>
             </div>
@@ -82,7 +85,8 @@ const handleLogin = async (e) => {
                     value={loginData.password}
                     onChange={handleChange}
                     placeholder="Enter password"
-                  className="bg-transparent w-full py-2.5 px-3 outline-none text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
+                    className="bg-transparent w-full py-2.5 px-3 outline-none text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
+                    required
                 />
                 <button
                   type="button"

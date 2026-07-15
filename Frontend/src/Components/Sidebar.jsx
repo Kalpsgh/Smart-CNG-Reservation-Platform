@@ -15,13 +15,22 @@ import { motion } from "framer-motion";
 import { LogIn, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import sidebarData from "../Data/sidebarData";
+import toast from "react-hot-toast";
 
 
 export default function Sidebar() {
   const [collapse, setCollapse] = useState(true);
 const navigate = useNavigate();
  const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
 
+    const handleLogout =()=>{
+        localStorage.removeItem("user");
+
+        localStorage.removeItem("token");
+        toast.success("Logout Successful") 
+        navigate("/login");
+    }
   return (
     <motion.div
       animate={{
@@ -32,7 +41,7 @@ const navigate = useNavigate();
     >
       {/* Logo */}
       
-      <div className="flex items-center justify-between px-5 py-6">
+      <div className="flex items-center justify-between px-5 py-4 border border-green-600 pb-5 border-l-0 border-r-0 border-t-0 mb-4">
 
         {!collapse && (
          <div className="flex flex-col">
@@ -40,80 +49,82 @@ const navigate = useNavigate();
     onClick={() => navigate("/")}
     className="text-xl font-bold cursor-pointer w-[180px]"
   >
+
     {user ? (
-      <>
-        Welcome, <span className="text-green-500">{user.name} 👋</span>
-      </>
-    ) : ( 
-      <div className="text-white">
-        Welcome to <span className="text-green-500">BookMyCNG👋</span>
-      </div>
-    )}
-  </h1>
+     <div className="px-1 ">
+      <div className="rounded-2xl flex items-center gap-3 border border-green-500 border-l-0 border-r-0 border-t-0 p-2">
+            <img
+            src="https://i.pravatar.cc/100"
+            alt="Profile"
+            className="w-12 h-12 rounded-full"
+            />
 
-  <p className="mt-1 text-[10px] text-slate-400 leading-4 ">
-    {user
-      ? "Ready to book your next CNG slot."
-      : "Sign in to reserve slots and skip the queue."}
-  </p>
-</div>
+            {!collapse && (
+            <div>
+                <h2 className="text-white font-semibold text-[16px] ">
+                          {user.fullName.split(" ")[0]}_{user.fullName.split(" ")[2]}  
+                </h2>
+                <p className="text-slate-400 text-sm">
+                    {user.role}
+                </p>
+            </div>
+            )}
+        </div>
+        </div>
+
+        ) : ( 
+           <h1 className="flex items-center gap-2 text-2xl font-bold">
+          <Fuel className="w-7 h-7 text-green-500" />
+          <span className="text-black dark:text-white cursor-pointer" onClick={() => navigate("/")}>
+            BookMy<span className="text-green-500">CNG</span>
+          </span>
+        </h1>
         )}
-<button
-  onClick={() => setCollapse(!collapse)}
-  className="
-    w-11 h-11
-    flex items-center justify-center
-    rounded-full
-    bg-gradient-to-r from-green-400 to-emerald-500
-    text-white
-    shadow-lg shadow-green-500/30
-    hover:scale-110
-    hover:shadow-xl hover:shadow-green-500/50
-    active:scale-95
-    transition-all duration-300
-  "
->
-  {collapse ? <Menu size={20} /> : <ArrowLeft size={20} />}
-</button>
+    </h1>
 
-      </div>
-
-      {/* User */}
-      {
-  user ? (
-    <div className="px-4">
-      <div className="rounded-2xl flex items-center gap-3">
-        <img
-          src="https://i.pravatar.cc/100"
-          alt="Profile"
-          className="w-12 h-12 rounded-full"
-        />
-
-        {!collapse && (
-          <div>
-            <h2 className="text-white font-semibold">
-              Chetan Kolhe
-            </h2>
-            <p className="text-slate-400 text-sm">
-              User
-            </p>
-          </div>
-        )}
-      </div>
+    <p className="mt-1 text-[12px] text-slate-400 leading-4 w-[170px] ">
+        {user
+        ? ""
+        : "Sign in to reserve slots and skip the queue."}
+    </p>
     </div>
-  ) : (
- <></>
-  )
-}
-      
+        )}
+        <button
+        onClick={() => setCollapse(!collapse)}
+        className="
+            w-11 h-11
+            flex items-center justify-center
+            rounded-full
+            bg-gradient-to-r from-green-400 to-emerald-500
+            text-white
+            shadow-lg shadow-green-500/30
+            hover:scale-110
+            hover:shadow-xl hover:shadow-green-500/50
+            active:scale-95
+            transition-all duration-300
+        "
+        >
+        {collapse ? <Menu size={20} /> : <ArrowLeft size={20} />}
+        </button>
+
+      </div>
+
+   
 
      
 
       {/* Menus */}
 
-     <div className="mt-8 flex-1 px-3">
+     <div className="mt-2 flex-1 px-3">
   {sidebarData
-  .filter(item => item.public || user)
+  .filter((item) => {
+      // 1. Get the current role from your user object
+      // If no user exists, role is 'guest'
+      const userRole = user ? user.role : 'guest'; 
+      
+      // 2. Check if the current item is allowed for this role
+      return item.roles.includes(userRole);
+    })
   .map((item) => {
     const Icon = item.icon;
 
@@ -135,7 +146,7 @@ const navigate = useNavigate();
         </div>
 
         {!collapse && item.badge && (
-          <span className="bg-white text-blue-600 text-xs px-2 py-1 rounded-full">
+          <span className="bg-red-600 text-white-600 text-xs px-2 py-1 rounded-full">
             {item.badge}
           </span>
         )}
@@ -168,7 +179,8 @@ const navigate = useNavigate();
       {user && (
   <div className="p-4">
     <button
-      className="w-full p-3 flex items-center justify-center gap-3 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-colors"
+        onClick={handleLogout}
+      className="w-full p-3 flex items-center justify-center gap-3 rounded-xl bg-slate-800 hover:bg-black hover:text-red-700 text-red-600 font-bold transition-colors"
     >
       <LogOut size={20} />
       {!collapse && "Logout"}

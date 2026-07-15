@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Animation Presets
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { 
@@ -48,7 +47,13 @@ export default function Home() {
   ];
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-
+const handleGetStarted = () => {
+  if (user) {
+    navigate("/bookingPage");
+  } else {
+    navigate("/signup");
+  }
+};
   return (
       <div className="relative min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white p-3 sm:p-6 lg:p-8 overflow-hidden selection:bg-green-500 selection:text-white flex items-center justify-center transition-colors duration-300">
       
@@ -91,7 +96,7 @@ export default function Home() {
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
-                onClick={() => navigate(user ? "/book" : "/signup")}
+                onClick={() => navigate(user ? "/bookingPage" : "/signup")}
                 className="group flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/20"
               >
                 {user ? (
@@ -107,7 +112,7 @@ export default function Home() {
                 )}
               </button>
 
-              <Link to="/pumps" className="px-7 py-3.5 rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm sm:text-base shadow-sm">
+              <Link to="/findNearbyCNG" className="px-7 py-3.5 rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm sm:text-base shadow-sm">
                 Find Live Pumps
               </Link>
             </div>
@@ -198,10 +203,13 @@ export default function Home() {
             </p>
           </div>
 
-          <Link to="/signup" className="px-5 py-3 rounded-xl bg-green-500 dark:bg-green-400 text-white dark:text-slate-950 font-bold hover:bg-green-600 dark:hover:bg-green-300 transition-colors flex items-center gap-2 group shadow-md shrink-0 text-sm">
-            Get Started Free
-            <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
+         <button 
+          onClick={handleGetStarted}
+          className="px-5 py-3 rounded-xl bg-green-500 dark:bg-green-400 text-white dark:text-slate-950 font-bold hover:bg-green-600 dark:hover:bg-green-300 transition-colors flex items-center gap-2 group shadow-md shrink-0 text-sm"
+        >
+          Get Started Free
+          <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+        </button>
         </motion.section>
 
       </motion.div>

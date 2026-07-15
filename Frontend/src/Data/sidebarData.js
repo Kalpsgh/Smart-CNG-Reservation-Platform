@@ -10,87 +10,41 @@ import {
   Info,
   Phone,
   Briefcase,
-  Home
+  Home,
+  Camera
 } from "lucide-react";
 
 const sidebarData = [
-  // Public Pages
-  {
-    title: "Home",
-    icon: Home,
-    path: "/",
-    public: true,
-  },
-  {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    path: "/dashboard",
-    public: false,
-  },
-  {
-    title: "Book CNG",
-    icon: Fuel,
-    path: "/book",
-    public: true,
-  },
-  {
-    title: "Nearby Pumps",
-    icon: MapPinned,
-    path: "/pumps",
-    public: true,
-  },
-  {
-    title: "Services",
-    icon: Briefcase,
-    path: "/services",
-    public: true,
-  },
-  {
-    title: "About Us",
-    icon: Info,
-    path: "/about",
-    public: true,
-  },
-  {
-    title: "Contact Us",
-    icon: Phone,
-    path: "/contact",
-    public: true,
-  },
+  // --- Public Pages (Visible to everyone) ---
+  { title: "Home", icon: Home, path: "/", roles: ["user", "guest"] },
+  { title: "Admin Dashboard", icon: LayoutDashboard, path: "/admin-dashboard", roles: ["admin"] },
+  { title: "Dashboard", icon: LayoutDashboard, path: "/userDashboard", roles: ["user"] },
 
-  // Login Required
-  {
-    title: "My Bookings",
-    icon: CalendarDays,
-    path: "/bookings",
-    badge: 12,
-    public: false,
-  },
-  {
-    title: "Notifications",
-    icon: Bell,
-    path: "/notifications",
-    badge: 4,
-    public: false,
-  },
-  {
-    title: "Analytics",
-    icon: BarChart3,
-    path: "/analytics",
-    public: false,
-  },
-  {
-    title: "Users",
-    icon: Users,
-    path: "/users",
-    public: false,
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-    path: "/settings",
-    public: false,
-  },
+  { title: "Book CNG", icon: Fuel, path: "/bookingPage", roles: ["user"] },
+  { title: "Nearby Pumps", icon: MapPinned, path: "/findNearbyCNG", roles: ["user","guest"] },
+  { title: "My Bookings", icon: CalendarDays, path: "/userBookings", roles: ["user"], badge: 12 },
+  
+  { title: "User Management", icon: Users, path: "/userManagement", roles: ["admin"] },
+
+  // --- Pump Owner Pages ---
+  { title: "Owner Dashboard", icon: Briefcase, path: "/ownerDashboard", roles: ["owner"] },
+  { title: "Manage Pump", icon: Fuel, path: "/managePump", roles: ["owner"] },
+  { title: "QR Scanner", icon: Camera, path: "/scanQR", roles: ["owner"] },
+  { title: "Pump Bookings", icon: CalendarDays, path: "/pumpBookings", roles: ["owner"] },
+
+  { title: "About Us", icon: Info, path: "/about", roles: ["user", "owner", "admin", "guest"] },
+  { title: "Contact Us", icon: Phone, path: "/contact", roles: ["user", "owner", "admin", "guest"] },
+
+  // --- User Pages ---
+
+
+  // --- Admin Pages ---
+
+  // --- Shared Settings ---
+  { title: "Notifications", icon: Bell, path: "/notifications", roles: ["user", "owner", "admin"], badge: 4 },
+  { title: "Settings", icon: Settings, path: "/settings", roles: ["user", "owner", "admin"] },
 ];
+
+
 
 export default sidebarData;

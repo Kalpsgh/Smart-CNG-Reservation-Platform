@@ -5,27 +5,21 @@ const userSchema = new mongoose.Schema(
     fullName: {
       type: String,
       required: true,
+      trim: true,
     },
 
     email: {
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
 
     mobile: {
       type: String,
       required: true,
-    },
-
-    vehicleNumber: {
-      type: String,
-      required: true,
-    },
-
-    vehicleType: {
-      type: String,
-      required: true,
+      unique: true,
     },
 
     password: {
@@ -35,7 +29,18 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      default: "User",
+      enum: ["user", "owner", "admin"],
+      default: "user",
+    },
+
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {
