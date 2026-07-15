@@ -95,7 +95,7 @@ const navigate = useNavigate();
             w-11 h-11
             flex items-center justify-center
             rounded-full
-            bg-gradient-to-r from-green-400 to-emerald-500
+            bg-gradient-to-r from-green-700 to-green-500
             text-white
             shadow-lg shadow-green-500/30
             hover:scale-110
@@ -135,7 +135,7 @@ const navigate = useNavigate();
         className={({ isActive }) =>
           `flex items-center justify-between rounded-xl px-5 py-3 mb-2 transition-all duration-300 ${
             isActive
-              ? "bg-gradient-to-r from-green-700 to-emerald-500 text-white shadow-lg shadow-green-500/20"
+              ? "bg-gradient-to-r from-green-800 to-green-500 text-white shadow-lg shadow-green-500/20"
               : "text-slate-300 hover:bg-slate-800"
           }`
         }
@@ -144,12 +144,12 @@ const navigate = useNavigate();
           <Icon size={22} />
           {!collapse && <span>{item.title}</span>}
         </div>
-
+{/* 
         {!collapse && item.badge && (
           <span className="bg-red-600 text-white-600 text-xs px-2 py-1 rounded-full">
             {item.badge}
           </span>
-        )}
+        )} */}
       </NavLink>
     );
   })}

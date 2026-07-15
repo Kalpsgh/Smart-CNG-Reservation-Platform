@@ -93,6 +93,7 @@ export default function UserBookings() {
                         {b.qrToken} • {b.createdAt.toLocaleString("en-IN")}
                       </p>
                       <h3 className="font-bold dark:text-white">{b.ownerId?.pumpName}</h3>
+                      <h3 className="font-bold dark:text-white/70 text-xs">{b.vehicleNumber}</h3>
                     </div>
                     <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase ${b.status === "Pending" ? "bg-slate-800 text-yellow-500" : "bg-slate-800 text-green-500"}`}>
                       {b.status}

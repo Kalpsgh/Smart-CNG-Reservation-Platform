@@ -5,6 +5,7 @@ import App from "./App";
 import { Toaster } from "react-hot-toast";
 import "./index.css";
 import "@fontsource/manrope";
+import "leaflet/dist/leaflet.css";
 const theme = localStorage.getItem("theme");
 
 if (theme === "dark") {

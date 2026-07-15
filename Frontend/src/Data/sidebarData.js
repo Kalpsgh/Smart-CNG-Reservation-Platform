@@ -20,8 +20,8 @@ const sidebarData = [
   { title: "Admin Dashboard", icon: LayoutDashboard, path: "/admin-dashboard", roles: ["admin"] },
   { title: "Dashboard", icon: LayoutDashboard, path: "/userDashboard", roles: ["user"] },
 
-  { title: "Book CNG", icon: Fuel, path: "/bookingPage", roles: ["user"] },
-  { title: "Nearby Pumps", icon: MapPinned, path: "/findNearbyCNG", roles: ["user","guest"] },
+  { title: "Book CNG Slot", icon: Fuel, path: "/bookingPage", roles: ["user"] },
+  { title: "Station Map", icon: MapPinned, path: "/findNearbyCNG", roles: ["user","guest"] },
   { title: "My Bookings", icon: CalendarDays, path: "/userBookings", roles: ["user"], badge: 12 },
   
   { title: "User Management", icon: Users, path: "/userManagement", roles: ["admin"] },

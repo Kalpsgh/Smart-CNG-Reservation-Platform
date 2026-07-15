@@ -6,7 +6,7 @@ import api from "../api/api";
 import { useNavigate } from "react-router-dom";
 
 
-
+import { useLocation } from "react-router-dom";
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371;
@@ -34,20 +34,35 @@ const generateTimeSlots = () => {
 
 // Use this inside your component:
 export default function BookingPage({ userLocation = { lat: 18.5204, lon: 73.8567 } }) {
-const [selectedPump, setSelectedPump] = useState(null);
-    const [timeSlots, setTimeSlots] = useState([]);
+  const [selectedPump, setSelectedPump] = useState(null);
+  const [timeSlots, setTimeSlots] = useState([]);
   const [step, setStep] = useState(1);
   const [range, setRange] = useState(30);
   const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
-  pump: "",
-  pumpId: "",
-  date: "",
-  time: "",
-  carModel: "",
-  carPlate: "",
-});
-const [stations, setStations] = useState([]);
+    pump: "",
+    pumpId: "",
+    date: "",
+    time: "",
+    carModel: "",
+    carPlate: "",
+  });
+  
+  const location = useLocation();
+  
+useEffect(() => {
+  if (location.state?.pump) {
+    setSelectedPump(location.state.pump);
+
+    setFormData((prev) => ({
+      ...prev,
+      pump: location.state.pump.pumpName,
+      pumpId: location.state.pump._id,
+    }));
+
+    setStep(2);
+  }
+}, [location.state]);const [stations, setStations] = useState([]);
 const dates = useMemo(
   () =>
     Array.from({ length: 3 }).map((_, i) => {
@@ -181,14 +196,11 @@ useEffect(() => {
   if (formData.pumpId && formData.date) {
     fetchAvailableTimeslots(formData.pumpId, formData.date);
   }
-  setFormData({ ...formData})
+ 
 }, [formData.pumpId, formData.date]);
 
 const isPumpClosedOnDate = (date) => {
   if (!selectedPump) return false;
-
-  // Emergency closed
-  if (!selectedPump.isOpen) return true;
 
   // No scheduled closure
   if (!selectedPump.closedFrom || !selectedPump.closedTo) {
@@ -206,6 +218,9 @@ const isPumpClosedOnDate = (date) => {
 
   return selected >= from && selected <= to;
 };
+
+
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 sm:p-8 ">
 

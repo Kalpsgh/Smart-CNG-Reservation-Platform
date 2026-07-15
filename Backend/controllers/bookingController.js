@@ -326,3 +326,63 @@ export const getPumpStatus = async (req, res) => {
 
   }
 };
+export const getUserDashboard = async (req, res) => {
+  try {
+
+    const year = Number(req.query.year) || new Date().getFullYear();
+
+    const start = new Date(year, 0, 1);   // Jan 1
+    const end = new Date(year + 1, 0, 1); // Jan 1 next year
+
+    const bookings = await Booking.find({
+      userId: req.user.id,
+      bookingDate: {
+        $gte: start,
+        $lt: end,
+      },
+    }).sort({ bookingDate: -1 });
+
+    const totalBookings = bookings.length;
+
+    const activeBookings = bookings.filter(
+      b => b.status === "Pending" || b.status === "Confirmed"
+    ).length;
+
+    const monthlyBookings = {};
+
+    bookings.forEach((booking) => {
+      const month = new Date(booking.bookingDate).toLocaleString("en-US", {
+        month: "short",
+      });
+
+      monthlyBookings[month] = (monthlyBookings[month] || 0) + 1;
+    });
+
+    const months = [
+      "Jan","Feb","Mar","Apr","May","Jun",
+      "Jul","Aug","Sep","Oct","Nov","Dec"
+    ];
+
+    const chartData = months.map(month => ({
+      name: month,
+      bookings: monthlyBookings[month] || 0,
+    }));
+
+    const recentBookings = bookings.slice(0, 5);
+
+    res.json({
+      totalBookings,
+      activeBookings,
+      averageMonthly: (totalBookings / 12).toFixed(1),
+      chartData,
+      recentBookings,
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message,
+    });
+
+  }
+};
