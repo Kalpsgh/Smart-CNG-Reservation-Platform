@@ -161,43 +161,53 @@ export const getMyBookings = async (req, res) => {
 
 export const verifyBooking = async (req, res) => {
   try {
-
     const { qrToken } = req.body;
 
-    const booking = await UserBookings.findOne({
-      qrToken,
-    });
+    // Find booking by QR
+    const booking = await UserBookings.findOne({ qrToken });
 
     if (!booking) {
       return res.status(404).json({
-        message: "Invalid QR Code",
+        message: "Invalid QR Code.",
+      });
+    }
+    
+    
+    const owner = await OwnerProfile.findById(booking.ownerId);
+    console.log("Booking OwnerId:", owner.userId.toString());
+    console.log("Logged User:", req.user.id);
+
+        if (!owner) {
+      return res.status(404).json({
+        message: "Pump owner not found",
+      });
+    }
+
+    if (owner.userId.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "This booking belongs to another CNG station.",
       });
     }
 
     if (booking.status === "Completed") {
       return res.status(400).json({
-        message: "Booking already completed",
+        message: "Booking already completed.",
       });
     }
 
     booking.status = "Completed";
-
     await booking.save();
 
-    res.json({
-      message: "Booking Verified Successfully",
+    return res.json({
+      message: "Booking verified successfully.",
       booking,
     });
-
   } catch (err) {
-
-    res.status(500).json({
+    return res.status(500).json({
       message: err.message,
     });
-
   }
 };
-
 export const getOwnerBookings = async (req, res) => {
   try {
 

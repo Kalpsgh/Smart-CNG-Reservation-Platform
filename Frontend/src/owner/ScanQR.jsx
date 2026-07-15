@@ -66,6 +66,7 @@ export default function ScanQR() {
       });
       toast.success(res.data.message, { id: loading });
     } catch (err) {
+      console.log(err.response?.data?.message)
       toast.error(err.response?.data?.message || "Failed", { id: loading });
     }
   };
