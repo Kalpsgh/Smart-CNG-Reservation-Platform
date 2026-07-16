@@ -21,7 +21,7 @@ const bookingSchema = new mongoose.Schema(
 
     vehicleType: {
       type: String,
-      enum: ["Sedan", "SUV", "Hatback", "Commercial"],
+      enum: ["Sedan", "SUV", "Hatchback", "Commercial"],
       required: true,
     },
 
