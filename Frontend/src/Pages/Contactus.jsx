@@ -14,8 +14,8 @@ export default function ContactUs() {
         {/* Contact Links */}
         <div className="grid sm:grid-cols-3 gap-6">
           {[
-            { icon: Mail, label: "Email", value: "support@bookmycng.com" },
-            { icon: Phone, label: "Helpline", value: "+91 98765 43210" },
+            { icon: Mail, label: "Email", value: "kalpeshpatil@gmail.com" },
+            { icon: Phone, label: "Helpline", value: "+91 9922738199" },
             { icon: MapPin, label: "Office", value: "Pune, Maharashtra" },
           ].map((item, i) => (
             <div key={i} className="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06]">

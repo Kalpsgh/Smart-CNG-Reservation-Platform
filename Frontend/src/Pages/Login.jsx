@@ -24,26 +24,24 @@ const handleLogin = async (e) => {
 
   try {
     const res = await api.post("/auth/login", loginData);
-    
+
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("user", JSON.stringify(res.data.user));
-    
+
     const role = res.data.user.role;
-    console.log(role);
-    
+
     if (role === "admin") {
       navigate("/admin-dashboard", { replace: true });
     } else if (role === "owner") {
-        navigate("/ownerDashboard", { replace: true });
+      navigate("/ownerDashboard", { replace: true });
     } else {
-      navigate("/", { replace: true }); 
+      navigate("/", { replace: true });
     }
-    toast.success("Login Successful 🎉");
-   
-    
-  } catch (err) {
-    toast.error(err.response?.data?.message || "Login failed");
 
+    toast.success("Login Successful 🎉");
+  } catch (err) {
+    console.error(err);
+    toast.error(err.response?.data?.message || err.message || "Login failed");
   }
 };
   return (

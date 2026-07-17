@@ -8,6 +8,9 @@ import connectDB from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import bookingRoutes from "./routes/bookingRoute.js";
+import dns from 'dns';
+
+dns.setServers(["1.1.1.1","8.8.8.8"]);
 
 
 
@@ -25,6 +28,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/pump", bookingRoutes);
 
-app.listen(5000, () =>
-  console.log("Server Running")
-);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server Running on ${PORT}`);
+});
